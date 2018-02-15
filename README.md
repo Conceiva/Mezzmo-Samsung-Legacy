@@ -10,4 +10,4 @@ Features:
 - Play music
 - View Photos
 
-<img src="http://www.conceiva.com/images/mezzmosamsungapp.png" width="100%">
+<img src="http://www.conceiva.com/images/mezzmosamsungappscreenshot.png" width="100%">
