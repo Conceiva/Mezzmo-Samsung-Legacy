@@ -198,10 +198,10 @@ GuiMusicPlayer.updateSelectedItem = function() {
 			document.getElementById("guiMusicPlayerNowPlaying").style.color = "#8dc63f";
 			break;*/
 		case 0:
-			document.getElementById("guiMusicPlayerShuffle").className = "guiMusicPlayerShuffle highlightMezzmoBackground";
+			document.getElementById("guiMusicPlayerShuffle").className = "guiMusicPlayerShuffle highlightMezzmoBoarder";
 			break;
 		case 1:
-			document.getElementById("guiMusicPlayerRepeat").className = "guiMusicPlayerRepeat highlightMezzmoBackground";
+			document.getElementById("guiMusicPlayerRepeat").className = "guiMusicPlayerRepeat highlightMezzmoBoarder";
 			break;
 		}
 }
