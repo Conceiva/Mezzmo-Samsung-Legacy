@@ -662,6 +662,9 @@ GuiDisplay_MediaItems.processSelectedItem = function() {
 			break;
 		}
 	} else {
+		if (this.PlaylistId.indexOf("cvasearch:") == 0) {
+			this.ItemData[this.selectedItem].parentId = this.PlaylistId;
+		}
 		Support.processSelectedItem("GuiDisplay_MediaItems",this.ItemData,this.startParams,this.selectedItem,this.topLeftItem,null,this.genreType,this.isLatest); 	
 	}
 }
@@ -724,7 +727,7 @@ GuiDisplay_MediaItems.openMenu = function() {
 		Support.updateURLHistory("GuiDisplay_MediaItems",this.startParams[0],this.startParams[1],null,null,this.selectedItem,this.topLeftItem,null);
 		GuiMainMenu.requested("GuiDisplay_MediaItems",this.ItemData[this.selectedItem].Id,"Music Selected");
 	} else { //TV or Movies
-		Support.updateURLHistory("GuiDisplay_MediaItems",this.startParams[0],this.startParams[1],null,null,this.selectedItem,this.topLeftItem,null);
+		Support.updateURLHistory("GuiDisplay_MediaItems",this.startParams[0],this.startParams[1],null,null,this.selectedItem,this.topLeftItem,null,this.PlaylistId,this.ParentData);
 		GuiMainMenu.requested("GuiDisplay_MediaItems",this.ItemData[this.selectedItem].Id,(File.getUserProperty("LargerView") == true) ? "SeriesPortraitLarge Selected" : "SeriesPortrait Selected");
 	}
 }

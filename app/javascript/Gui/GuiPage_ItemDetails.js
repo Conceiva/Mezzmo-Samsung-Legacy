@@ -57,7 +57,7 @@ Support.updateDisplayedItems(GuiPage_ItemDetails.ActorsData,GuiPage_ItemDetails.
 //Function sets CSS Properties so show which user is selected
 GuiPage_ItemDetails.updateSelectedActors = function () {
 	Support.updateSelectedNEW(GuiPage_ItemDetails.ActorsData,GuiPage_ItemDetails.selectedActor,GuiPage_ItemDetails.topLeftActor,
-			Math.min(GuiPage_ItemDetails.topLeftActor + GuiPage_ItemDetails.getMaxDisplayActor(),GuiPage_ItemDetails.ActorsData.length),"ActorItem seriesSelected highlightMezzmoBoarder","ActorItem","",false,GuiPage_ItemDetails.ActorsData.length);
+			Math.min(GuiPage_ItemDetails.topLeftActor + GuiPage_ItemDetails.getMaxDisplayActor(),GuiPage_ItemDetails.ActorsData.length),"ActorItem seriesSelected highlightMezzmoBoarder","ActorItem","",true,GuiPage_ItemDetails.ActorsData.length);
 }
 
 GuiPage_ItemDetails.updateDisplayedExtras = function() {
@@ -68,7 +68,7 @@ Support.updateDisplayedItems(GuiPage_ItemDetails.TrailersData,GuiPage_ItemDetail
 //Function sets CSS Properties so show which user is selected
 GuiPage_ItemDetails.updateSelectedExtras = function () {
 	Support.updateSelectedNEW(GuiPage_ItemDetails.TrailersData,GuiPage_ItemDetails.selectedExtra,GuiPage_ItemDetails.topLeftExtra,
-			Math.min(GuiPage_ItemDetails.topLeftExtra + GuiPage_ItemDetails.getMaxDisplayExtra(),GuiPage_ItemDetails.TrailersData.length),"ExtraLandscape seriesSelected highlightMezzmoBoarder","ExtraLandscape","",false,GuiPage_ItemDetails.ItemData.trailerStreams.length);
+			Math.min(GuiPage_ItemDetails.topLeftExtra + GuiPage_ItemDetails.getMaxDisplayExtra(),GuiPage_ItemDetails.TrailersData.length),"ExtraLandscape highlightMezzmoBoarder","ExtraLandscape","",false,GuiPage_ItemDetails.ItemData.trailerStreams.length);
 }
 
 GuiPage_ItemDetails.processTrailers = function(trailerData, index, itemId) {
@@ -96,7 +96,8 @@ GuiPage_ItemDetails.processTrailers = function(trailerData, index, itemId) {
 
 GuiPage_ItemDetails.start = function(itemData, trailersData) {
 	alert("Page Enter : GuiPage_ItemDetails");
-
+	var idChanged = false;
+	
 	GuiMainMenu.changeVisibility("hidden");
 	
 	//Clear previous trailer
@@ -114,6 +115,29 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 		this.TrailersData = trailersData;
 	}
 	
+	//Set PageContent
+	document.getElementById("pageContent").className = "";
+	document.getElementById("pageContent").innerHTML = "<div id='InfoContainer' class='infoContainer'> \
+					<div id='guiTV_Show_Title' style='font-size:1.7em;'></div> \
+					<div id='guiTV_Show_Metadata' style='margin-left:-5px;'class='MetaDataSeasonTable'></div> \
+					<br> \
+					<div id='overviewHeading' class='subheadingText'>Overview</div> \
+					<div id='guiTV_Show_Overview' class='guiFilm_Overview'></div> \
+					<br> \
+					<div id='castHeading' class='subheadingText'>Cast</div> \
+					<div id='guiTV_Show_Cast' class='guiFilm_Cast'></div> \
+					<div id='trailersHeading' class='subheadingText'>Trailers</div> \
+					<div id='ExtraContent' class='ExtraContent'></div> \
+			</div> \
+			<div id='guiTV_Show_Metadata2' class='guiTV_Show_Metadata2'></div> \
+			<div id='guiTV_Episode_Options' class='guiTV_Episode_Options'></div> \
+			<div id='guiTV_Episode_SubOptions' class='guiTV_Episode_SubOptions'></div> \
+			<div id='guiTV_Episode_SubOptionImages' class='guiTV_Episode_SubOptionImages'></div> \
+			<div id='guiTV_Show_MediaAlternative' class='guiTV_Show_MediaAlternative'></div> \
+			<div id='trailerContainer' class='videoTrailerContainer'></div> \
+			<div id='imageDisk' class='imageDisk'></div> \
+			<div id='guiTV_Show_Poster' class='guiFilm_Poster'></div>";
+	
 	if (this.ItemId != itemData.id) {
 		this.ItemId = itemData.id;
 		
@@ -128,47 +152,31 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 		this.selectedItem = 0;
 		
 		document.getElementById("Counter").innerHTML = "";
+		idChanged = true;
 	}
-
-	//Set PageContent
-	document.getElementById("pageContent").className = "";
-	document.getElementById("pageContent").innerHTML = "<div id='InfoContainer' class='infoContainer'> \
-					<div id='guiTV_Show_Title' style='font-size:1.7em;'></div> \
-					<div id='guiTV_Show_Metadata' style='margin-left:-5px;'class='MetaDataSeasonTable'></div> \
-					<br> \
-					<div class='subheadingText'>Overview</div> \
-					<div id='guiTV_Show_Overview' class='guiFilm_Overview'></div> \
-					<br> \
-					<div class='subheadingText'>Cast</div> \
-					<div id='guiTV_Show_Cast' class='guiFilm_Cast'></div> \
-					<div id='trailersHeading' class='subheadingText'>Trailers</div> \
-					<div id='ExtraContent' class='ExtraContent'></div> \
-			</div> \
-			<div id='guiTV_Show_Metadata2' class='guiTV_Show_Metadata2'></div> \
-			<div id='guiTV_Episode_Options' class='guiTV_Episode_Options'></div> \
-			<div id='guiTV_Episode_SubOptions' class='guiTV_Episode_SubOptions'></div> \
-			<div id='guiTV_Episode_SubOptionImages' class='guiTV_Episode_SubOptionImages'></div> \
-			<div id='guiTV_Show_MediaAlternative' class='guiTV_Show_MediaAlternative'></div> \
-			<div id='trailerContainer' class='videoTrailerContainer'></div> \
-			<div id='imageDisk' class='imageDisk'></div> \
-			<div id='guiTV_Show_Poster' class='guiFilm_Poster'></div>";
 	
 	//Get Page Items
 	if (this.ItemData.bookmark > 0) {
-		this.menuItems.push("guiTV_Episode_Resume");
+		if (idChanged) {
+			this.menuItems.push("guiTV_Episode_Resume");
+		}
 		this.resumeTicksSamsung = this.ItemData.bookmark * 1000;     					
 		document.getElementById("guiTV_Episode_Options").innerHTML += "<div id='guiTV_Episode_Resume' class='FilmListSingle'><div class='FilmListSingleImage' style=background-image:url(images/menu/Resume-46x37.png)></div><div class='ShowListSingleTitle'><div class='ShowListTextOneLineFilm'>RESUME - "+Support.convertTicksToTimeSingle(this.resumeTicksSamsung)+"</div></div></div>";
 	}
 	
 	//If the item is a trailer from the trailers channel, make the main play button into a Play Trailer button instead.
 	if (this.ItemData.type == "Trailer" && this.trailersEnabled){
-		this.menuItems.push("guiTV_Episode_Play");
+		if (idChanged) {
+			this.menuItems.push("guiTV_Episode_Play");
+		}
 		document.getElementById("guiTV_Episode_Options").innerHTML += "<div id='guiTV_Episode_Play' class='FilmListSingle'><div class='FilmListSingleImage' style=background-image:url(images/menu/Play-46x37.png)></div><div class='ShowListSingleTitle'><div class='ShowListTextOneLineFilm'>PLAY TRAILER</div></div></div>";
 	} else if (this.ItemData.LocationType != "Virtual") {
-		this.menuItems.push("guiTV_Episode_Play");
+		if (idChanged) {
+			this.menuItems.push("guiTV_Episode_Play");
+		}
 		document.getElementById("guiTV_Episode_Options").innerHTML += "<div id='guiTV_Episode_Play' class='FilmListSingle'><div class='FilmListSingleImage' style=background-image:url(images/menu/Play-46x37.png)></div><div class='ShowListSingleTitle'><div class='ShowListTextOneLineFilm'>PLAY</div></div></div>";	
 	}
-	
+
 	//Get trailerItems
 	if (this.ItemData.trailerStreams.length > 0) {
 		document.getElementById("trailerContainer").style.visibility="hidden";
@@ -236,18 +244,26 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 	GuiPage_ItemDetails.updateItemUserStatus(this.ItemData);
 	
 	//Update Overview
-	if (this.ItemData.Overview != null) {
+	if (this.ItemData.Overview != null && this.ItemData.Overview != "") {
 		document.getElementById("guiTV_Show_Overview").innerHTML = this.ItemData.Overview;
+	}
+	else {
+		document.getElementById("overviewHeading").style.visibility="hidden";
 	}
 	
 	//Update Cast
 	if (this.ItemData.People != null && this.ActorsData.length == 0) {
-		var people = this.ItemData.People.split(", ");
-		for (index = 0; index < people.length; index++) {
-			this.ActorsData.push({'id':'actor_' + index, 'title':people[index],'poster':this.ItemData.imageSearchUrl + "?imagesearch=" + escape(people[index]), 'type':'actor'});
+		if (this.ItemData.People != "") {
+			var people = this.ItemData.People.split(", ");
+			for (index = 0; index < people.length; index++) {
+				this.ActorsData.push({'id':'actor_' + index, 'title':people[index],'poster':this.ItemData.imageSearchUrl + "?imagesearch=" + encodeURI(people[index]), 'type':'actor'});
+			}
+			this.updateDisplayedActors();
+			this.updateSelectedActors();
+		}		
+		else {
+			document.getElementById("castHeading").style.visibility="hidden";
 		}
-		this.updateDisplayedActors();
-		this.updateSelectedActors();
 	}
 	else {
 		this.updateDisplayedActors();
@@ -255,7 +271,7 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 	}
 	
 	//Get ratings info.
-	var htmlForMetaData = "<table style='border-spacing: 10px;'><tr class='spaceUnder'>";
+	var htmlForMetaData = "<table style='border-spacing: 10px;'><tr class='spaceUnder' style='vertical-align:middle'>";
 	var toms = this.ItemData.CriticRating;
 	var stars = this.ItemData.CommunityRating;
 	var tomsImage = "";
@@ -314,23 +330,23 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 		htmlForMetaData += "<td class=MetadataItemIcon style=background-image:url(images/ic_closed_caption_white.png)></td>";
 	}
 	
-	htmlForMetaData += "</tr><tr>";
+	htmlForMetaData += "</tr></table><table style='border-spacing: 10px;'><tr>";
 	
 	if (this.ItemData.Album != "") {
-		htmlForMetaData += "<td class='subheadingText'>Series</td>";
+		htmlForMetaData += "<td class='subheadingText' style='vertical-align:middle'>Series</td>";
 		htmlForMetaData += "<td>" + this.ItemData.Album + "</td>";
 		
 	}
 	
 	if (this.ItemData.episode != 0) {
 		if (this.ItemData.season != "") {
-			htmlForMetaData += "<td class='subheadingText'>Season</td>";
+			htmlForMetaData += "<td class='subheadingText' style='vertical-align:middle;padding-left:5px;'>Season</td>";
 			htmlForMetaData += "<td>" + this.ItemData.season + "</td>";
 			
 		}
 		
 		if (this.ItemData.episode != "") {
-			htmlForMetaData += "<td class='subheadingText'>Episode</td>";
+			htmlForMetaData += "<td class='subheadingText' style='vertical-align:middle;padding-left:5px;'>Episode</td>";
 			htmlForMetaData += "<td>" + this.ItemData.episode + "</td>";
 			
 		}
@@ -344,13 +360,13 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 	
 	if (this.ItemData.Creator != "") {
 		htmlForMetaData2 += "<div class='subheadingText'>Director</div>";
-		htmlForMetaData2 += "<div>" + this.ItemData.Creator + "</div>";
+		htmlForMetaData2 += "<div style='padding:5px'>" + this.ItemData.Creator + "</div>";
 		
 	}
 		
 	if (this.ItemData.Genre != "") {
 		htmlForMetaData2 += "<div class='subheadingText'>Genre</div>";
-		htmlForMetaData2 += "<div>" + this.ItemData.Genre + "</div>";
+		htmlForMetaData2 += "<div style='padding:5px'>" + this.ItemData.Genre + "</div>";
 		
 	}
 	

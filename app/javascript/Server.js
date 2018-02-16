@@ -738,9 +738,9 @@ Server.toHHMMSS = function (val) {
 }
 
 Server.replaceCommonText = function(str) {
-	str = str.replace("&apos;", "'");
-	str = str.replace("&quot;", "\"");
-	str = str.replace("&amp;", "&");
+	str = str.split("&apos;").join("'");
+	str = str.split("&quot;").join("\"");
+	str = str.split("&amp;").join("&");
 	return str;
 }
 
@@ -834,6 +834,10 @@ Server.parsexml = function(xml, listItems)
 			
 			if (people == "Unknown Artist") {
 				people = "";
+			}
+			
+			if (genre == "Unknown Genre") {
+				genre = "";
 			}
 			
 			var captions = Server.getChildNodes(items[i], "captions");

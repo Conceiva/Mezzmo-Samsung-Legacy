@@ -162,6 +162,8 @@ Support.processReturnURLHistory = function(bookmark) {
 		
 		alert ("Just after removing item" + this.previousPageDetails.length);
 	} else {
+		// make sure music has stopped to prevent tv reboot
+		GuiMusicPlayer.stopPlayback();
 		widgetAPI.sendReturnEvent();
 	}
 }
@@ -416,7 +418,7 @@ Support.updateDisplayedItems = function(Items,selectedItemID,startPos,endPos,Div
 				if (Items[index].poster != "") {	
 					var imgsrc = Items[index].poster;
 					
-					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_i' src='" + imgsrc + "'></img></div></div><div class=menuItemBlockSmall>"+ title + "</div></div>";
+					htmlToAdd += "<div id='"+ DivIdPrepend + Items[index].id + "'><div class='item_a'><div class='item_i'><img class='icon_actor' src='" + imgsrc + "'></img></div></div><div class=menuItemBlockSmall>"+ title + "</div></div>";
 				} 	
 			//----------------------------------------------------------------------------------------------
 			} else {
