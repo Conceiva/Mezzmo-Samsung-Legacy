@@ -410,8 +410,8 @@ GuiPage_ItemDetails.updateSelectedItems = function () {
 		}		
 	} 
 
-	document.getElementById("guiTV_Episode_SubOptions").style.display="none";
-	document.getElementById("guiTV_Episode_SubOptionImages").style.display="none";
+	//document.getElementById("guiTV_Episode_SubOptions").style.display="none";
+	//document.getElementById("guiTV_Episode_SubOptionImages").style.display="none";
 	
 	if (this.menuItems[this.selectedItem] == "guiTV_Episode_Play" && this.trailerItems.length > 0) {
 		document.getElementById("guiTV_Episode_SubOptions").style.display="";
@@ -512,6 +512,10 @@ GuiPage_ItemDetails.keyDown = function()
 			}
 			else {
 				this.selectedExtra = this.selectedExtra - this.MAXCOLUMNCOUNT_EXTRA;
+				if (this.selectedExtra < 0) {
+					this.selectedExtra = 0;
+				}
+				
 				if (this.selectedExtra < this.topLeftExtra) {
 					if (this.topLeftExtra - this.MAXCOLUMNCOUNT_EXTRA < 0) {
 						this.topLeftExtra = 0;

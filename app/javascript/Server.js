@@ -288,7 +288,7 @@ Server.getSubtitles = function(url) {
 	xmlHttp = new XMLHttpRequest();
 	if (xmlHttp) {
 		xmlHttp.open("GET", url , false); //must be false
-		xmlHttp = this.setRequestHeaders(xmlHttp);
+		//xmlHttp = this.setRequestHeaders(xmlHttp);
 		xmlHttp.send(null);
 		    
 		if (xmlHttp.status != 200) {
