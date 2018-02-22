@@ -365,7 +365,9 @@ GuiMusicPlayer.stopPlayback = function() {
 	//this.currentPlayingItem = 0;
 	this.queuedItems.length = 0;
 	this.shuffledItems.length = 0;
-	this.pluginMusic.Stop();
+	if (this.pluginMusic != null) {
+		this.pluginMusic.Stop();
+	}
 	
 	document.getElementById("guiMusicPlayerPlay").style.backgroundImage="url('images/musicplayer/play-29x37.png')";
 	document.getElementById("guiMusicPlayerPause").style.backgroundImage="url('images/musicplayer/pause-32x37.png')";

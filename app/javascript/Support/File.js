@@ -292,18 +292,7 @@ File.getTVProperty = function(property) {
 			fileJson.TV = {};
 			File.writeAll (fileJson);
 		}
-		
-		if (fileJson.TV[property] === undefined) {
-			//Get System Default
-			for (var index = 0; index < GuiPage_Settings.TVSettings.length; index++) {
-				if (GuiPage_Settings.TVSettings[index] == property) {
-					//Write setting here?
-					fileJson.TV[property] = GuiPage_Settings.TVSettingsDefaults[index];
-					File.writeAll(fileJson);
-					break;
-				}
-			}
-		} 
+		 
 		return fileJson.TV[property];			
 	}
 };
