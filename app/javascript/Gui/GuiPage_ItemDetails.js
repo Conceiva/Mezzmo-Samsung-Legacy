@@ -256,7 +256,12 @@ GuiPage_ItemDetails.start = function(itemData, trailersData) {
 		if (this.ItemData.People != "") {
 			var people = this.ItemData.People.split(", ");
 			for (index = 0; index < people.length; index++) {
-				this.ActorsData.push({'id':'actor_' + index, 'title':people[index],'poster':this.ItemData.imageSearchUrl + "?imagesearch=" + encodeURI(people[index]), 'type':'actor'});
+				if (this.ItemData.imageSearchUrl == "") {
+					this.ActorsData.push({'id':'actor_' + index, 'title':people[index],'poster':'images/ic_person_white.png', 'type':'actor'});
+				}
+				else {
+					this.ActorsData.push({'id':'actor_' + index, 'title':people[index],'poster':this.ItemData.imageSearchUrl + "?imagesearch=" + encodeURI(people[index]), 'type':'actor'});
+				}
 			}
 			this.updateDisplayedActors();
 			this.updateSelectedActors();

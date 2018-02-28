@@ -71,7 +71,7 @@ GuiDisplay_Servers.AddDevice = function(device) {
 	}
 	
 	if (!found) {
-		GuiDisplay_Servers.ItemData.push({'guid':device.id, 'id':GuiDisplay_Servers.ItemData.length, 'title':device.name, 'ipAddress':device.ipAddress, 'type':'server', 'poster':iconUri});
+		GuiDisplay_Servers.ItemData.push({'guid':device.id, 'id':'server' + GuiDisplay_Servers.ItemData.length, 'title':device.name, 'ipAddress':device.ipAddress, 'type':'server', 'poster':iconUri});
 		GuiDisplay_Servers.updateDisplayedItems();
 		GuiDisplay_Servers.updateSelectedItems();
 	}

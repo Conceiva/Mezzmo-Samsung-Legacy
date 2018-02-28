@@ -42,7 +42,12 @@ GuiPage_NewServer.createInputObjects = function() {
         }
         
         nextIndex = (previousIndex + 2) % GuiPage_NewServer.inputs.length;
-        GuiPage_NewServer.inputs[index] = new GuiPage_NewServer_Input(this.elementIds[index],this.elementIds[previousIndex], this.elementIds[nextIndex]);
+		try {
+			GuiPage_NewServer.inputs[index] = new GuiPage_NewServer_Input(this.elementIds[index],this.elementIds[previousIndex], this.elementIds[nextIndex]);
+		}
+		catch (err) {
+			alert(err.message);
+		}
     }
 }
 
