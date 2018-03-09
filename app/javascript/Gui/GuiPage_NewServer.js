@@ -9,6 +9,8 @@ GuiPage_NewServer.start = function() {
 	alert("Page Enter : GuiPage_NewServer");
 	GuiHelper.setControlButtons(null,null,null,null,"Return");
 		
+	document.getElementById("Counter").innerHTML = "";
+	
 	//Insert html into page
 	document.getElementById("pageContent").innerHTML = "<div class='GuiPage_NewServer12key'> \
 		<p style='padding-bottom:5px;'>Enter the IP address & port number of your Mezzmo server. <br>(You can leave the port blank for 53168)</p> \
@@ -113,7 +115,13 @@ var GuiPage_NewServer_Input  = function(id,previousId, nextId) {
             	} else {
             		document.getElementById("pageContent").focus();                                   
                     //Timeout required to allow notification command above to be displayed
-                    setTimeout(function(){Server.testConnectionSettings(host,false);}, 1000);
+                    setTimeout(function(){
+
+        				//show Loading Div
+        				document.getElementById("loading").style.visibility = "";
+        				
+                    	Server.testConnectionSettings(host,false);
+                    }, 1000);
             	}
             } else {	
             	var Port = document.getElementById('port').value;
@@ -124,7 +132,13 @@ var GuiPage_NewServer_Input  = function(id,previousId, nextId) {
                 var ip = IP1 + '.' +  IP2 + '.' +  IP3 + '.' +  IP4 + ':' + Port;
                 document.getElementById("pageContent").focus();                                   
                 //Timeout required to allow notification command above to be displayed    
-                setTimeout(function(){Server.testConnectionSettings(ip,false);}, 1000);
+                setTimeout(function(){
+                	
+    				//show Loading Div
+    				document.getElementById("loading").style.visibility = "";
+    				
+                	Server.testConnectionSettings(ip,false);
+                }, 1000);
                 
             }       
         });

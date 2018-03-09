@@ -164,9 +164,9 @@ var installFocusKeyCallbacks = function () {
 			document.getElementById("loading").style.visibility = "hidden";
 			
         	if (GuiPage_Search.ItemData == null) { return; }*/
-        	
-			Support.updateURLHistory("GuiPage_Search",GuiPage_Search.startParams[0],GuiPage_Search.startParams[1],null,null,0,0,null,searchString,null);
-			GuiDisplay_MediaItems.start("Search: " + searchString,url, 0,0, GuiPage_Search.ItemData, "cvasearch:" + searchString, null);
+			var thisItem = {"title":"Search", "poster":"images/ic_search_white.png", "Overview":"Results of search for '" + searchString + "'"};
+			Support.updateURLHistory("GuiPage_Search",GuiPage_Search.startParams[0],GuiPage_Search.startParams[1],null,null,0,0,null,searchString,thisItem);
+			GuiDisplay_MediaItems.start("Search: " + searchString,url, 0,0, GuiPage_Search.ItemData, "cvasearch:" + searchString, thisItem);
         	
         	
         } 	

@@ -120,6 +120,7 @@ GuiMusicPlayer.start = function(title,currentIndex,playedFromPage,isQueue,showTh
 
 	if (title != "Song") { 	
     	for (var index = 0; index < this.ItemData.length; index++) {
+    		this.ItemData[index].index = index;
     		this.queuedItems.push(this.ItemData[index]);
 			this.shuffledItems.push(this.ItemData[index]);
     	}
@@ -435,9 +436,39 @@ GuiMusicPlayer.handleNextKey = function() {
 	} else {
 		//Play Next Item
 		if (this.shuffle == 'off') {
+			while (this.queuedItems[this.currentPlayingItem].MediaType != "Audio") {
+				
+				if (this.repeat != 'one') {
+					this.currentPlayingItem++;
+				}
+				
+				if (this.queuedItems.length <= this.currentPlayingItem &&
+					this.repeat == 'on') {	
+					this.currentPlayingItem = 0;
+				}
+				
+				if (this.queuedItems.length - 1 <= this.currentPlayingItem) {	
+					break;
+				}
+			}
 			this.videoURL = this.queuedItems[this.currentPlayingItem].contentUrl;
 		}
 		else {
+			while (this.shuffledItems[this.currentPlayingItem].MediaType != "Audio") {
+				
+				if (this.repeat != 'one') {
+					this.currentPlayingItem++;
+				}
+				
+				if (this.queuedItems.length <= this.currentPlayingItem &&
+					this.repeat == 'on') {	
+					this.currentPlayingItem = 0;
+				}
+				
+				if (this.queuedItems.length - 1 <= this.currentPlayingItem) {	
+					break;
+				}
+			}
 			this.videoURL = this.shuffledItems[this.currentPlayingItem].contentUrl;
 		}
 		alert ("Next " + this.videoURL);
@@ -478,9 +509,37 @@ GuiMusicPlayer.handlePreviousKey = function() {
 	} else {
 		//Play Next Item
 		if (this.shuffle == 'off') {
+			while (this.queuedItems[this.currentPlayingItem].MediaType != "Audio") {
+				
+				this.currentPlayingItem--;
+				
+				if (this.queuedItems.length <= this.currentPlayingItem &&
+					this.repeat == 'on') {	
+					this.currentPlayingItem = this.queuedItems.length - 1;
+				}
+				
+				if (-1 == this.currentPlayingItem) {	
+					this.currentPlayingItem = 0;
+					break;
+				}
+			}
 			this.videoURL = this.queuedItems[this.currentPlayingItem].contentUrl;
 		}
 		else {
+			while (this.shuffledItems[this.currentPlayingItem].MediaType != "Audio") {
+				
+				this.currentPlayingItem--;
+				
+				if (this.shuffledItems.length <= this.currentPlayingItem &&
+					this.repeat == 'on') {	
+					this.currentPlayingItem = this.shuffledItems.length - 1;
+				}
+
+				if (-1 == this.currentPlayingItem) {	
+					this.currentPlayingItem = 0;
+					break;
+				}
+			}
 			this.videoURL = this.shuffledItems[this.currentPlayingItem].contentUrl;
 		}
 		alert ("Next " + this.videoURL);
@@ -499,7 +558,8 @@ GuiMusicPlayer.handlePreviousKey = function() {
 
 GuiMusicPlayer.shuffleArray = function(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
-
+  var currentPlayingIndex = this.currentPlayingItem;
+  
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
 
@@ -511,20 +571,22 @@ GuiMusicPlayer.shuffleArray = function(array) {
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
-	if (this.currentPlayingItem == currentIndex) {
-		this.currentPlayingItem = randomIndex;
+	if (this.currentPlayingItem == array[currentIndex].index) {
+		currentPlayingIndex = currentIndex;
 	}
-	else if (this.currentPlayingItem == randomIndex) {
-		this.currentPlayingItem = currentIndex;
+	else if (this.currentPlayingItem == array[randomIndex].index) {
+		currentPlayingIndex = randomIndex;
 	}
   }
 
+  this.currentPlayingItem = currentPlayingIndex;
   return array;
 }
 
 GuiMusicPlayer.handleShuffle = function() {
 	if (this.shuffle == 'on') {
 		this.shuffle = 'off';
+		this.currentPlayingItem = this.shuffledItems[this.currentPlayingItem].index;
 		document.getElementById("guiMusicPlayerShuffle").style.backgroundImage="url('images/musicplayer/shuffle_off.png')";
 	}
 	else if (this.shuffle == 'off') {
